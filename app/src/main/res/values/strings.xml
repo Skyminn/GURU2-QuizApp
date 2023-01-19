@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">QuizApp</string>
+    <string name="game_rules">게임 방법 설명이 길어질 수도 있으니 우선
+        \n이렇게 파일로 만들어 두겠습니다!!</string>
 </resources>
