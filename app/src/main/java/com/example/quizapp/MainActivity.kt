@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.quizapp.databinding.ActivityMainBinding
+import com.example.result.ResultActivity
 
 class MainActivity : AppCompatActivity() {
     val DATABASE_VERSION = 1
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             val passwd = binding.editPw.text.toString()
             val exist = localDB.logIn(id,passwd) // 로그인 실행
             if(exist){ // 로그인 성공
-                val intent = Intent(this,SecondActivity::class.java) //이거 임의로 연결해놓은거라 다음 화면 액티비티 연결하시면 됩니다
+                val intent = Intent(this, StartScreen::class.java) //이거 임의로 연결해놓은거라 다음 화면 액티비티 연결하시면 됩니다
                 startActivity(intent)
             }else{ // 실패
                 Toast.makeText(this@MainActivity, "아이디나 비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT).show()
