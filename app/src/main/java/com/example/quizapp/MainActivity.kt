@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.quizapp.databinding.ActivityMainBinding
-import com.example.result.ResultActivity
 
 class MainActivity : AppCompatActivity() {
     val DATABASE_VERSION = 1
