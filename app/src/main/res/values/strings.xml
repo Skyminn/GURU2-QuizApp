@@ -2,4 +2,8 @@
     <string name="app_name">QuizApp</string>
     <string name="game_rules">게임 방법 설명이 길어질 수도 있으니 우선
         \n이렇게 파일로 만들어 두겠습니다!!</string>
+
+    <string name="question">구구단 퀴즈</string>
+    <string name="count_label">%d/%d</string>
+    <string name="submit">%s</string>
 </resources>
