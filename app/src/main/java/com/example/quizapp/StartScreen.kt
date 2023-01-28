@@ -1,6 +1,7 @@
 package com.example.quizapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -52,7 +53,8 @@ class StartScreen : AppCompatActivity(){
 
         //게임 시작 버튼
         binding.gameStartBtn.setOnClickListener {
-            //차후 구현
+            val intent = Intent(this,QuizActivity::class.java)
+            startActivity(intent)
         }
 
         //구구단 노래 실행
