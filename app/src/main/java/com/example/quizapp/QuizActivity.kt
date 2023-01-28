@@ -1,5 +1,6 @@
 package com.example.quizapp
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +22,7 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
 
     private var currentPosition: Int = 1 // 질문 위치
     private var selectedOption: Int = 0 // 선택 답변 값
-    //private var score: Int = 0 // 점수
+    private var score: Int = 0 // 점수
 
     private lateinit var questionList: ArrayList<Question>
 
@@ -93,14 +94,16 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
                 setColor(selectedOption, R.drawable.wrong_option_background)
 
                 callDialog("오답", "정답 ${question.correct_answer}")
+            }else{
+                score++
             }
 
             setColor(question.correct_answer, R.drawable.correct_option_background)
 
-            // 위치값 상승
+            //위치값 상승
             currentPosition++
 
-            // 정답 0.5 초 지속 후 다음 문제 출력  
+            // 정답 0.5 초 지속 후 다음 문제 출력
             Handler(Looper.getMainLooper()).postDelayed({
 
                 if (currentPosition <= questionList.size)
@@ -115,7 +118,19 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
             // 마지막 문제 정답 체크 시 알림
             if (currentPosition > questionList.size)
                 Toast.makeText(this,"끝", Toast.LENGTH_SHORT).show()
+
+
+
+            //결과화면으로 이어지는 코드
+            if (currentPosition == questionList.size) {
+                intent = Intent(this@QuizActivity, ResultActivity::class.java)
+                intent.putExtra("score", score)
+                intent.putExtra("totalSize", questionList.size)
+                startActivity(intent)}
+
+
         }
+
 
         // 선택값 초기화
         selectedOption = 0
