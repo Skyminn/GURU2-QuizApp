@@ -8,8 +8,11 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16sp"
+        android:layout_marginTop="16sp"
+        android:layout_marginRight="16sp"
         android:layout_marginBottom="16dp"
         android:text="@string/game_rules"
         app:layout_constraintBottom_toTopOf="@+id/closeBtn"

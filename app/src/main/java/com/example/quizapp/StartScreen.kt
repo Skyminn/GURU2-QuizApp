@@ -53,6 +53,17 @@ class StartScreen : AppCompatActivity(){
 
         //게임 시작 버튼
         binding.gameStartBtn.setOnClickListener {
+            // 구구단 송 play 중이라면, 게임 시작 후 종료
+            if(player.isPlaying){
+                player.pause()
+                player.release()
+            }
+
+            if(mrPlayer.isPlaying){
+                mrPlayer.pause()
+                mrPlayer.release()
+            }
+
             val intent = Intent(this,QuizActivity::class.java)
             startActivity(intent)
         }
@@ -129,11 +140,6 @@ class StartScreen : AppCompatActivity(){
             mrPlayer.stop()
             mrPlayer=MediaPlayer.create(this, R.raw.mr_multiplication_tables)
         }
-
-    }
-
-    override fun onDestroy () {
-        super.onDestroy ()
 
     }
 
