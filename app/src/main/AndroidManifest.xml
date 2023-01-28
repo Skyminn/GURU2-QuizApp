@@ -38,7 +38,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name="com.example.result.ResultActivity"
+            android:name=".ResultActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
