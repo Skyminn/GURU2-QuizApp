@@ -35,8 +35,9 @@ object QuestionData {
         )
 
         val q4 = Question(
-            3,
-            "2 X 4 = ?",
+            4,
+            "지우개와 연필이 하나씩 짝지어져있다.\n" +
+                    "총 16개가 있을 때 연필은 몇 개 일까?",
             /*1,
             2,
             3,
@@ -45,8 +46,8 @@ object QuestionData {
         )
 
         val q5 = Question(
-            3,
-            "4 X □ = 20 \n □ = ?",
+            5,
+            "3 X □ = 15 \n □ = ?",
             /*1,
             2,
             3,
@@ -54,13 +55,33 @@ object QuestionData {
             5
         )
 
+        val q6 = Question(
+            6,
+            "□ X 9 = 54 \n □ = ?",
+            /*1,
+            2,
+            3,
+            4 , */
+            6
+        )
+
+        val q7 = Question(
+            7,
+            "4 X □ = 28 \n □ = ?",
+            /*1,
+            2,
+            3,
+            4 , */
+            7
+        )
+
         queList.add(q1)
         queList.add(q2)
         queList.add(q3)
         queList.add(q4)
         queList.add(q5)
-        //queList.add(q6)
-        //queList.add(q7)
+        queList.add(q6)
+        queList.add(q7)
 
         return queList
     }

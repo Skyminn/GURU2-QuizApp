@@ -9,12 +9,17 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.Dimension
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.example.quizapp.databinding.ActivityQuizBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.concurrent.timer
 
 class QuizActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -24,7 +29,17 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
     private var selectedOption: Int = 0 // 선택 답변 값
     private var score: Int = 0 // 점수
 
-    private lateinit var questionList: ArrayList<Question>
+    private var time = 0 // 시간
+    private var timerTask: Timer? = null // 타이머
+    private var isRunning = false // 실행 여부
+    private var lab = 1 // 시간 기록
+
+    private lateinit var questionList: ArrayList<Question> // 문제 리스트
+
+    lateinit var fab : FloatingActionButton
+    lateinit var secTextView : TextView
+    lateinit var milliTextView : TextView
+    lateinit var labLayout : LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +62,6 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
         binding.button7.setOnClickListener(this)
         binding.button8.setOnClickListener(this)
         binding.button9.setOnClickListener(this)
-
 
         /** 주관식 문제 추가 시 사용하도록 하겠습니다 */
         /*
@@ -82,12 +96,20 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
             // 선택값 초기화
             selectedOption = 0
         }*/
+
+        // 타이머 구현
+        //setContentView(R.layout.activity_main)
+
+        secTextView = findViewById<TextView>(R.id.secTextView)
+        milliTextView = findViewById<TextView>(R.id.milliTextView)
     }
 
     // 답변 체크
-    fun check() {
+    private fun check() {
         if (selectedOption != 0) {
             val question = questionList[currentPosition - 1]
+            // 타이머 시작
+            start()
 
             // 정답 체크 (선택 답변과 정답을 비교)
             if (selectedOption != question.correct_answer) { // 오답
@@ -116,27 +138,24 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
              * 결과 화면으로 연결하면 될 것 같습니다.
              */
             // 마지막 문제 정답 체크 시 알림
-            if (currentPosition > questionList.size)
+            if (currentPosition > questionList.size) {
                 Toast.makeText(this,"끝", Toast.LENGTH_SHORT).show()
 
-
-
-            //결과화면으로 이어지는 코드
-            if (currentPosition == questionList.size) {
+                // 결과화면으로 이어지는 코드
                 intent = Intent(this@QuizActivity, ResultActivity::class.java)
                 intent.putExtra("score", score)
                 intent.putExtra("totalSize", questionList.size)
-                startActivity(intent)}
-
+                startActivity(intent)
+                
+                // 타이머 리셋
+                //reset()
+            }
 
         }
-
 
         // 선택값 초기화
         selectedOption = 0
     }
-
-
         /*
         // 답변 체크 이벤트
         binding.button.setOnClickListener {
@@ -202,8 +221,8 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
         //답변 설정 초기화
         setOptionStyle()
 
-        if((currentPosition-1) == 2) {
-            binding.questionText.setTextSize(Dimension.SP, 25F)
+        if((currentPosition-1) == 2 || (currentPosition-1) == 3) {
+            binding.questionText.setTextSize(Dimension.SP, 22F)
         } else
             binding.questionText.setTextSize(Dimension.SP, 34F)
         // 질문 변수에 담기
@@ -279,8 +298,6 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
         // 답변 체크
         check()
     }
-
-
     override fun onClick(view: View?) {
         when(view?.id) {
             R.id.button -> selectedOptionStyle(binding.button, 1)
@@ -295,4 +312,35 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    /**
+     * 타이머 함수 구현
+     */
+    private fun pause() {
+        timerTask?.cancel()
+    }
+
+    private fun start() {
+        timerTask = timer(period=10) {
+            time++
+            val sec = time / 100
+            val milli = time % 100
+            runOnUiThread {
+                secTextView.text = "$sec"
+                milliTextView.text = "$milli"
+            }
+        }
+    }
+
+    private fun reset() {
+        timerTask?.cancel()
+
+        time = 0
+        isRunning = false
+        fab.setImageResource(R.drawable.ic_baseline_play_arrow_24)
+        secTextView.text = "0"
+        milliTextView.text = "00"
+
+        labLayout.removeAllViews()
+        lab = 1
+    }
 }
