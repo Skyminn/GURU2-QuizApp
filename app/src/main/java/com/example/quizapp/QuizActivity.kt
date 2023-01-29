@@ -138,18 +138,21 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
              * 결과 화면으로 연결하면 될 것 같습니다.
              */
             // 마지막 문제 정답 체크 시 알림
-            if (currentPosition > questionList.size) {
+            if (currentPosition > questionList.size)
                 Toast.makeText(this,"끝", Toast.LENGTH_SHORT).show()
 
+
                 // 결과화면으로 이어지는 코드
+            if (currentPosition == questionList.size){
                 intent = Intent(this@QuizActivity, ResultActivity::class.java)
                 intent.putExtra("score", score)
                 intent.putExtra("totalSize", questionList.size)
-                startActivity(intent)
+                intent.putExtra("recode", lab)
+                startActivity(intent)}
                 
                 // 타이머 리셋
                 //reset()
-            }
+
 
         }
 
