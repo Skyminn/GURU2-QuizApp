@@ -20,7 +20,7 @@ class ResultActivity : AppCompatActivity() {
 
         val score = intent.getIntExtra("score",0)
         val totalSize = intent.getIntExtra("totalSize", 0)
-        val recode = intent.getIntExtra("recode", 0)
+        val recode = intent.getStringExtra("recode") // Int -> String 값으로 수정했습니다!
 
         //점수보여주기
 

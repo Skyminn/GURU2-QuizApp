@@ -32,7 +32,6 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
     private var time = 0 // 시간
     private var timerTask: Timer? = null // 타이머
     private var isRunning = false // 실행 여부
-    private var lab = 1 // 시간 기록
 
     private lateinit var questionList: ArrayList<Question> // 문제 리스트
 
@@ -40,6 +39,7 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var secTextView : TextView
     lateinit var milliTextView : TextView
     lateinit var labLayout : LinearLayout
+    lateinit var totalTime : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -138,56 +138,22 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
              * 결과 화면으로 연결하면 될 것 같습니다.
              */
             // 마지막 문제 정답 체크 시 알림
-            if (currentPosition > questionList.size)
-                Toast.makeText(this,"끝", Toast.LENGTH_SHORT).show()
-
+            if (currentPosition > questionList.size) {
+                recordLapTime()
+                Toast.makeText(this, "끝", Toast.LENGTH_SHORT).show()
 
                 // 결과화면으로 이어지는 코드
-            if (currentPosition == questionList.size){
                 intent = Intent(this@QuizActivity, ResultActivity::class.java)
                 intent.putExtra("score", score)
                 intent.putExtra("totalSize", questionList.size)
-                intent.putExtra("recode", lab)
-                startActivity(intent)}
-                
-                // 타이머 리셋
-                //reset()
+                intent.putExtra("recode", totalTime)
 
-
+                startActivity(intent)
+            }
         }
-
         // 선택값 초기화
         selectedOption = 0
     }
-        /*
-        // 답변 체크 이벤트
-        binding.button.setOnClickListener {
-            if (selectedOption != 0) {
-                val question = questionList[currentPosition-1]
-
-                // 정답 체크 (선택 답변과 정답을 비교)
-                if(selectedOption != question.correct_answer) { // 오답
-                    setColor(selectedOption, R.drawable.wrong_option_background)
-
-                    callDialog("오답", "정답 ${question.correct_answer}")
-                }
-                setColor(question.correct_answer, R.drawable.correct_option_background)
-            } else {
-                // 위치값 상승
-                currentPosition++
-                when {
-                    currentPosition <= questionList.size -> {
-                        // 다음문제 세팅
-                        getQuestionData()
-                    }
-                    else -> {
-                        // 결과 액티비티로 넘어가는 코드
-                    }
-                }
-            }
-            // 선택값 초기화
-            selectedOption = 0
-        }         */
 
     /**
      * 답변 색상 변경
@@ -245,7 +211,6 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
         binding.questionText.text = question.question
 
         // 답변 표시
-        //binding.button.text = question.option_one
         binding.button.text = "1"
         binding.button2.text = "2"
         binding.button3.text = "3"
@@ -256,14 +221,6 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
         binding.button8.text = "8"
         binding.button9.text = "9"
     }
-/*
-    private fun setSubmitBtn(name: String) {
-        binding.button.text = getString(R.string.submit, name)
-    }
-    // 제출 버튼 텍스트 설정
-    private fun getSubmitBtn(name: String) {
-        binding.button.text = "{name}"
-    } */
 
     /** 답변 스타일 설정 */
 
@@ -334,16 +291,8 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun reset() {
-        timerTask?.cancel()
-
-        time = 0
-        isRunning = false
-        fab.setImageResource(R.drawable.ic_baseline_play_arrow_24)
-        secTextView.text = "0"
-        milliTextView.text = "00"
-
-        labLayout.removeAllViews()
-        lab = 1
+    private fun recordLapTime() {
+        val lapTime = this.time
+        totalTime = "${lapTime / 100}.${lapTime % 100}"
     }
 }
