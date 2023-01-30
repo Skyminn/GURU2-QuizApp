@@ -31,20 +31,16 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
 
     private var time = 0 // 시간
     private var timerTask: Timer? = null // 타이머
-    private var isRunning = false // 실행 여부
 
     private lateinit var questionList: ArrayList<Question> // 문제 리스트
 
-    lateinit var fab : FloatingActionButton
     lateinit var secTextView : TextView
     lateinit var milliTextView : TextView
-    lateinit var labLayout : LinearLayout
     lateinit var totalTime : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQuizBinding.inflate(layoutInflater)
-        //setContentView(R.layout.activity_quiz)
         setContentView(binding.root)
 
         // 질문 리스트 가져오기
@@ -62,43 +58,6 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
         binding.button7.setOnClickListener(this)
         binding.button8.setOnClickListener(this)
         binding.button9.setOnClickListener(this)
-
-        /** 주관식 문제 추가 시 사용하도록 하겠습니다 */
-        /*
-        // 답변 체크 이벤트
-        binding.button.setOnClickListener() {
-            if (selectedOption != 0) {
-                val question = questionList[currentPosition - 1]
-
-                // 정답 체크 (선택 답변과 정답을 비교)
-                if (selectedOption != question.correct_answer) { // 오답
-                    setColor(selectedOption, R.drawable.wrong_option_background)
-
-                    callDialog("오답", "정답 ${question.correct_answer}")
-                }
-                setColor(question.correct_answer, R.drawable.correct_option_background)
-
-            } else {
-                // 위치값 상승
-                currentPosition++
-                when {
-                    // 전체 문제 숫자가 현재 위치보다 크면 다음 문제로 넘어감
-                    currentPosition <= questionList.size -> {
-                        // 다음문제 세팅
-                        getQuestionData()
-                    }
-                    else -> {
-                        // 결과 액티비티로 넘어가는 코드
-                        Toast.makeText(this, "끝", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-            // 선택값 초기화
-            selectedOption = 0
-        }*/
-
-        // 타이머 구현
-        //setContentView(R.layout.activity_main)
 
         secTextView = findViewById<TextView>(R.id.secTextView)
         milliTextView = findViewById<TextView>(R.id.milliTextView)
@@ -275,9 +234,6 @@ class QuizActivity : AppCompatActivity(), View.OnClickListener {
     /**
      * 타이머 함수 구현
      */
-    private fun pause() {
-        timerTask?.cancel()
-    }
 
     private fun start() {
         timerTask = timer(period=10) {
